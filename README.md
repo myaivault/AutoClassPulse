@@ -39,11 +39,23 @@ Supports a dedicated “Excused” sheet to skip teachers who are officially exc
 ✅ **n8n Workflow Integration**  
 Uses n8n to send emails and WhatsApp notifications automatically based on pending data.
 
+✅ 💬 **WhatsApp messages** via WhatsApp Cloud API (using phone numbers from the Google Sheet)
+
+📞 Contact Integration:
+Each teacher’s record includes name, email, and phone number for messaging and escalation workflows
+
 ✅ **Error & Lock Handling**  
 Includes script locks to prevent overlapping executions and detailed logging for troubleshooting.
 
 ✅ **Customizable & Scalable**  
 Easily configurable for any number of grades, teachers, or communication channels.
+
+✅ 💬 Multi-Channel Notifications:
+AutoClassPulse sends notifications:
+
+📧 Email reminders via Gmail API
+
+.
 
 ---
 
