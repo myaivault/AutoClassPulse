@@ -1,0 +1,273 @@
+{
+  "name": "AutoClassPulse",
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1b2WFfHZtUSVbQb6KLQib50TjHbmcOziGK5_Rkoe_0l0",
+          "mode": "list",
+          "cachedResultName": "Daily Enrollment Responses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b2WFfHZtUSVbQb6KLQib50TjHbmcOziGK5_Rkoe_0l0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1485565715,
+          "mode": "list",
+          "cachedResultName": "Pending Submissions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b2WFfHZtUSVbQb6KLQib50TjHbmcOziGK5_Rkoe_0l0/edit#gid=1485565715"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1744,
+        -96
+      ],
+      "id": "c58e319f-5523-4549-8308-e007a98aa94f",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZT3P1A4zrxVprBcC",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "No Data Submitted Today",
+        "message": "=hi {{ $json['Teacher Name'] }}  your data is not submitted today, please submit it now!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1520,
+        -192
+      ],
+      "id": "c904d78c-968a-459c-bded-0cc7d6ea815c",
+      "name": "Send a message",
+      "webhookId": "ce8c6536-4417-46c7-9327-3209b9f98bf8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "H4yODJa9wpe37U9M",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "=",
+        "recipientPhoneNumber": "={{ $json['Phone Number'] }}",
+        "textBody": "hi your data is pending for today. please submit it as soon as possible",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -1520,
+        0
+      ],
+      "id": "953a5b44-4f52-4080-a55f-d4a633dcfe1c",
+      "name": "Send message",
+      "webhookId": "f64e8724-43ef-4524-b5f5-04bd23c0c8b3",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "iPsVrsS1osibR7jL",
+          "name": "WhatsApp account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1b2WFfHZtUSVbQb6KLQib50TjHbmcOziGK5_Rkoe_0l0",
+          "mode": "list",
+          "cachedResultName": "Daily Enrollment Responses",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b2WFfHZtUSVbQb6KLQib50TjHbmcOziGK5_Rkoe_0l0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1485565715,
+          "mode": "list",
+          "cachedResultName": "Pending Submissions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1b2WFfHZtUSVbQb6KLQib50TjHbmcOziGK5_Rkoe_0l0/edit#gid=1485565715"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1744,
+        320
+      ],
+      "id": "7d2becd0-e495-4422-bd9b-3b22bd6291a2",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ZT3P1A4zrxVprBcC",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 22 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1968,
+        320
+      ],
+      "id": "2c1dba7a-e3c5-4110-8a2e-dbb5626b8b3e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "No Data Submitted Today",
+        "message": "=Dear {{ $json['Teacher Name'] }},\n\nThis is to bring to your attention that, as of {{ $json.Date }}, you have not submitted the daily class data for **Grade {{ $json.Grade }}**.\n\nYou were required to submit this data by the given deadline. Failure to do so disrupts the school’s daily reporting and monitoring process.\n\nYou are hereby directed to provide a written explanation for the delay in submission within the next 24 hours.  \nRepeated non-compliance may result in disciplinary action as per school policy.\n\nPlease treat this matter as urgent.\n\nBest regards,  \nSchool Administration  \n{{ $json.Date }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1520,
+        224
+      ],
+      "id": "0c1a1f9d-4d19-4aff-9c88-dbbe5e6a47e0",
+      "name": "Send a message1",
+      "webhookId": "ce8c6536-4417-46c7-9327-3209b9f98bf8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "H4yODJa9wpe37U9M",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "=",
+        "recipientPhoneNumber": "={{ $json['Phone Number'] }}",
+        "textBody": "hi your data is pending for today. please submit it as soon as possible",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -1520,
+        416
+      ],
+      "id": "a2460ebb-4d45-43d2-93e2-87b4849b9bd0",
+      "name": "Send message1",
+      "webhookId": "f64e8724-43ef-4524-b5f5-04bd23c0c8b3",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "iPsVrsS1osibR7jL",
+          "name": "WhatsApp account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 9 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1968,
+        -96
+      ],
+      "id": "e088cdce-c3fc-4c25-a085-ea1646a362e2",
+      "name": "Schedule Trigger1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d2d1da98-a01b-420b-ab41-30ff39c18347",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1be753a8886834272960eba9c6fb8b08d4f02f5eaf9eaca8aaf5164cf9505e6d"
+  },
+  "id": "Q6nfHKYyhBhrEY3w",
+  "tags": []
+}
